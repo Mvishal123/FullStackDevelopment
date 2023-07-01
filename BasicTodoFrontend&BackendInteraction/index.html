@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>To do</title>
+  </head>
+  <style>
+    .task-desc-done {
+      background-color: yellowgreen;
+    }
+  </style>
+  <body>
+    To do Title
+    <input type="text" id="title" />
+    <br />
+    To do description
+    <input type="text" id="desc" />
+    <br />
+    <button id="btn">Send</button>
+    <div class="display-data"></div>
+
+    <script>
+      const btn = document.getElementById("btn");
+      const displayArea = document.querySelector(".display-data");
+
+      const changeStatus = (id) => {
+        console.log(id);
+        fetch(`http://localhost:3000/todos/${id}`, {
+          method: "PUT",
+        }).then((resp) => console.log(resp));
+      };
+
+      const deleteTask = (id) => {
+        fetch(`http://localhost:3000/todos/${id}`, {
+          method: "DELETE",
+        }).then((resp) => console.log(resp));
+      };
+
+      const updateDisplayArea = (jsonData) => {
+        console.log(jsonData);
+        let div = document.createElement("div");
+        div.setAttribute("class", "task");
+
+        const delBtn = document.createElement("button");
+        delBtn.innerText = "Delete";
+        delBtn.setAttribute("class", "delBtn");
+        delBtn.setAttribute("data-id", jsonData.id);
+        delBtn.addEventListener("click", () => {
+          deleteTask(delBtn.getAttribute("data-id"));
+          displayArea.removeChild(div);
+        });
+
+        const doneBtn = document.createElement("button");
+        doneBtn.setAttribute("class", "doneBtn");
+        doneBtn.setAttribute("data-id", jsonData.id);
+        doneBtn.innerText = "Done";
+        doneBtn.addEventListener("click", () => {
+          description.classList.toggle("task-desc-done");
+          changeStatus(doneBtn.getAttribute("data-id"));
+        });
+
+        const title = document.createElement("span");
+        const description = document.createElement("span");
+
+        title.innerText = jsonData.title;
+        description.innerText = jsonData.description;
+
+        div.appendChild(title);
+        div.appendChild(description);
+        div.append(doneBtn);
+        div.appendChild(delBtn);
+        displayArea.appendChild(div);
+      };
+
+      const getDataDisplay = (jsonData) => {
+        jsonData.forEach((data) => {
+          let div = document.createElement("div");
+          div.setAttribute("class", "task");
+
+          const delBtn = document.createElement("button");
+          delBtn.innerText = "Delete";
+          delBtn.setAttribute("class", "delBtn");
+          delBtn.setAttribute("data-id", data.id);
+          delBtn.addEventListener("click", () => {
+            deleteTask(delBtn.getAttribute("data-id"));
+            displayArea.removeChild(div);
+          });
+
+          const doneBtn = document.createElement("button");
+          doneBtn.setAttribute("class", "doneBtn");
+          doneBtn.setAttribute("data-id", data.id);
+          doneBtn.innerText = "Done";
+          doneBtn.addEventListener("click", () => {
+            description.classList.toggle("task-desc-done");
+            changeStatus(doneBtn.getAttribute("data-id"));
+          });
+
+          const title = document.createElement("span");
+          const description = document.createElement("span");
+
+          title.innerText = data.title;
+          description.innerText = data.description;
+
+          div.appendChild(title);
+          div.appendChild(description);
+          div.append(doneBtn);
+          div.appendChild(delBtn);
+          displayArea.appendChild(div);
+        });
+      };
+
+      const getData = () => {
+        fetch("http://localhost:3000/todos", {
+          method: "GET",
+        })
+          .then((resp) => resp.json())
+          .then((resp) => getDataDisplay(resp));
+      };
+
+      getData();
+
+      btn.addEventListener("click", () => {
+        let _title = document.getElementById("title").value;
+        let _description = document.getElementById("desc").value;
+        if (_description.length !== 0 && _title.length !== 0) {
+          fetch("http://localhost:3000/todos", {
+            method: "POST",
+            body: JSON.stringify({
+              title: _title,
+              description: _description,
+            }),
+            headers: {
+              "Content-Type": "application/json",
+            },
+          })
+            .then((resp) => resp.json())
+            .then((data) => updateDisplayArea(data[data.length - 1]));
+        }
+      });
+    </script>
+  </body>
+</html>
