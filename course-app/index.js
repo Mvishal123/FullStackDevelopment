@@ -1,55 +1,69 @@
 const express = require("express");
 const app = express();
-const port = 3000;
+const jwt = require("jsonwebtoken");
 
 app.use(express.json());
+
+// datas
 let ADMINS = [];
 let USERS = [];
 let COURSES = [];
 
-let adminId = 0;
-let userId = 0;
-let courseId = 0;
+const secretAdmin = "adminS3cr3t";
+const secretUser = "userS3cr3t";
 
-const adminAuthentication = (req, res, next) => {
-  const { username, password } = req.headers;
-  const userPresent = ADMINS.find(
-    (a) => a.username === username && a.password == password
-  );
-  if (userPresent) {
-    next();
-  } else {
-    res.status(404).send("Unauthorized access");
-  }
+// create token for admin
+const createTokenAdmin = (details) => {
+  const token = jwt.sign(details, secretAdmin, { expiresIn: "1h" });
+  return token;
 };
 
-const userAuthentication = (req, res, next) => {
-  const { username, password } = req.headers;
-  const userPresent = USERS.find(
-    (a) => a.username === username && a.password == password
-  );
-  if (userPresent) {
-    next();
-  } else {
-    res.status(404).send("Unauthorized access");
-  }
+// create token for user
+const createTokenUser = (details) => {
+  const token = jwt.sign(details, secretUser, { expiresIn: "1h" });
+  return token;
+};
+
+const adminTokenAuthentication = (req, res, next) => {
+  const token = req.headers.authorization.split(" ")[1];
+  jwt.verify(token, secretAdmin, (err, data) => {
+    if (err) {
+      res.send("Unauthorized access");
+    } else {
+      const { username, password } = data;
+      const admin = ADMINS.find(
+        (a) => a.username === username && a.password === Number(password)
+      );
+      req.admin = admin;
+      console.log("admin:", req.admin);
+      next();
+    }
+  });
+};
+const userTokenAuthentication = (req, res, next) => {
+  const token = req.headers.authorization.split(" ")[1];
+  jwt.verify(token, secretUser, (err, data) => {
+    if (err) {
+      res.send("Unauthorized access");
+    } else {
+      const { username, password } = data;
+      const user = USERS.find(
+        (u) => u.username === username && u.password === Number(password)
+      );
+      req.user = user;
+      next();
+    }
+  });
 };
 
 // Admin routes
 app.post("/admin/signup", (req, res) => {
-  const { username, password } = req.body;
-  const admin = ADMINS.find(
-    (a) => a.username === username && a.password === password
-  );
-  if (!admin) {
-    const adminDetails = {
-      username: username,
-      password: password,
-      id: adminId
-    };
-    adminId++;
-    ADMINS.push(adminDetails);
-    res.send("Admin joined succesfully");
+  const adminDetails = req.body;
+  const adminPresent = ADMINS.find((a) => a.username === adminDetails.username);
+  if (!adminPresent) {
+    ADMINS.push({ ...adminDetails, id: ADMINS.length + 1 });
+    const token = createTokenAdmin(adminDetails);
+    res.json({ msg: "admin created successfully", token });
   } else {
     res.status(411).send("Admin already present");
   }
@@ -58,114 +72,90 @@ app.post("/admin/signup", (req, res) => {
 app.post("/admin/login", (req, res) => {
   const { username, password } = req.headers;
   const adminPresent = ADMINS.find(
-    (a) => a.username === username && a.password == password
+    (a) => a.username === username && a.password === Number(password)
   );
   if (adminPresent) {
-    res.send({ msg: "Succesfully logged in" });
+    const token = createTokenAdmin(adminPresent);
+    res.json({ msg: "Logged in successfully", token });
   } else {
-    res.status(411).send({ msf: "Admin not found. Sign up first" });
+    res.status(411).json({ msg: "You need to sign up first" });
   }
 });
 
-app.post("/admin/courses", adminAuthentication, (req, res) => {
+app.post("/admin/courses", adminTokenAuthentication, (req, res) => {
   const course = req.body;
-  course.id = courseId;
-  courseId++;
-  COURSES.push(course);
-  res.send({ msg: "course added successfully" });
+  id = COURSES.length + 1;
+  COURSES.push({ ...course, id });
+  res.json({ msg: "Course created succesfully", id });
 });
 
-app.put("/admin/courses/:courseId", adminAuthentication, (req, res) => {
-  const delId = Number(req.params.courseId);
-  const course = COURSES.find((c) => (c.id = delId));
+app.put("/admin/courses/:courseId", adminTokenAuthentication, (req, res) => {
+  const course = COURSES.find((c) => c.id === Number(req.params.courseId));
   if (course) {
-    Object.assign(course, req.body);
-    res.send({ msg: "updated succesfully", course: course });
+    const updatedCourse = req.body;
+    Object.assign(course, updatedCourse);
+    res.json({ msg: "Course updated successfully", id: course.id });
   } else {
-    res.status(404).send({ msg: "course not found" });
+    res.status(411).send("Course not found");
   }
 });
 
-app.get("/admin/courses", adminAuthentication, (req, res) => {
-  if (COURSES.length === 0) {
-    res.send({ msg: "Course list is empty" });
-  } else {
-    res.send({ courses: COURSES });
-  }
+app.get("/admin/courses", adminTokenAuthentication, (req, res) => {
+  const allCourses = COURSES.filter((c) => c.published === true);
+  res.send(allCourses);
 });
 
 // User routes
 app.post("/users/signup", (req, res) => {
-  const user = req.body;
-  const userPresent = USERS.find(
-    (u) => u.username === user.username && u.password == user.password
-  );
-  if (!userPresent) {
-    user.id = userId;
-    user.coursePurchased = [];
-    USERS.push(user);
-    userId++;
-    res.send({ msg: "user created successfully" });
+  const userDetails = req.body;
+  const user = USERS.find((u) => u.username === userDetails.username);
+  if (user) {
+    res.status(400).json({ msg: "Username already taken" });
   } else {
-    res.status(404).send({ msg: "User already present" });
+    USERS.push({ ...userDetails, id: USERS.length + 1 });
+    const token = createTokenUser(userDetails);
+    res.json({ msg: "User created successfully", token });
   }
 });
 
 app.post("/users/login", (req, res) => {
   const { username, password } = req.headers;
-  const userPresent = USERS.find(
-    (u) => u.username === username && u.password == password
+  const user = USERS.find(
+    (u) => u.username === username && u.password === Number(password)
   );
-  if (userPresent) {
-    res.send({ msg: "Logged in succesfully" });
+  if (user) {
+    const token = createTokenUser(user);
+    res.json({ msg: "Logged in successfully", token });
   } else {
-    res.status(404).send({ msg: "user not found. Try signing in first" });
+    res.json({ msg: "Incorrect credentials" });
   }
 });
 
-app.get("/users/courses", userAuthentication, (req, res) => {
-  res.send(COURSES);
+app.get("/users/courses", userTokenAuthentication, (req, res) => {
+  const allCourses = COURSES.filter((c) => c.published === true);
+  res.json(allCourses);
 });
 
-app.put("/users/courses/:courseId", userAuthentication, (req, res) => {
-  const courseId = req.params.courseId;
-  const findCourse = COURSES.find((c) => c.id == courseId);
-  if (findCourse) {
-    const { username, password } = req.headers;
-    const user = USERS.find(
-      (u) => u.username === username && u.password == password
-    );
-    const details = { courseId: courseId, purchased: true };
-    // user.coursePurchased.push(details);
-    user.coursePurchased.push(details);
-    console.log(user);
-    res.send({msg: "Course purchased successfully"});
-  } else{
-    res.status(404).send("Course not found");
+app.post("/users/courses/:courseId", userTokenAuthentication, (req, res) => {
+  const id = Number(req.params.courseId);
+  const courseToPurchase = COURSES.find((c) => c.id === id);
+  if (courseToPurchase) {
+    const user = req.user;
+    if (!user.hasOwnProperty("purchasedCourses")) {
+      user.purchasedCourses = [];
+    }
+    user.purchasedCourses.push(id);
+    res.json({ msg: "Course purchased successfully", user: user });
+  } else {
+    res.status(411).send({ msg: "Course not found" });
   }
 });
 
-app.get("/users/purchasedCourses",userAuthentication, (req, res) => {
-  const {username, password} = req.headers;
-  const findUser = USERS.find(u => u.username == username && u.password == password);
-  console.log("finduser:", findUser);
-  const user = USERS[findUser.id];
-  console.log("USER: ",user);
-  let purchasedCoursesId = [];
-  for(let courses of user.coursePurchased){
-    purchasedCoursesId.push(courses.courseId);
-  }
-  console.log("purchased courses id:", purchasedCoursesId);
-  let coursePurchased = [];
-  for(let courseId of purchasedCoursesId){
-    const findCourse = COURSES.find(c => c.id == courseId);
-    console.log("findCourse:", findCourse);
-    coursePurchased.push(findCourse);
-  }
-  console.log(coursePurchased);
-  res.send({courses: coursePurchased});
+app.get("/users/purchasedCourses", userTokenAuthentication, (req, res) => {
+  const purchasedCourses = COURSES.filter(c => req.user.purchasedCourses.includes(c.id));
+      res.json({PurchasedCourses: purchasedCourses});
 });
 
-app.listen(port, () => {
+app.listen(3000, () => {
   console.log("Server is listening on port 3000");
 });
