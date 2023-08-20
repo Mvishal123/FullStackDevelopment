@@ -37,6 +37,18 @@ const p2 = new Person("Vaibhav", 14)
 console.log(p2.greet());
 console.log(p2.getKey());
 
-
 console.log(p1.getKey());
 
+
+interface customerDetails {
+    username: string;
+    password: string;
+    type: "user" | "admin"
+}
+
+const display = (user: customerDetails): string => {
+    const {username, password, type} = user;
+    return `Hey ${username} you are an ${type}`
+}
+
+console.log(display({username: "Vishal", password: "123", type: "user"}));
