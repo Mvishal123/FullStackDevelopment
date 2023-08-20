@@ -1,3 +1,6 @@
+// Using interface in a class
+
+
 interface PersonState {
     name: string;
     age: number;
@@ -40,6 +43,8 @@ console.log(p2.getKey());
 console.log(p1.getKey());
 
 
+
+// interface in a function
 interface customerDetails {
     username: string;
     password: string;
@@ -52,3 +57,55 @@ const display = (user: customerDetails): string => {
 }
 
 console.log(display({username: "Vishal", password: "123", type: "user"}));
+
+
+// Using types
+interface GenderInterface{
+    sex:string;
+    orientation: string;
+    pronoun: string;
+}
+
+interface ClientInterface {
+    clientName: string;
+    age: number;
+    country: string;
+}
+
+type clientWithgender = ClientInterface & GenderInterface
+
+const clientDetails = (client: clientWithgender): object => {
+    return client
+}
+
+console.log(clientDetails({
+    clientName: "Vishal",
+    age: 18,
+    country: "India",
+    sex: "male",
+    orientation: "straight",
+    pronoun: "he/him"
+}))
+
+// using interface in other interfaces
+interface ClientWithGender{
+    clientDetails: ClientInterface;
+    clientGender: GenderInterface;
+}
+
+const clientDetails2 = (client: ClientWithGender): object[] => {
+    return [client.clientDetails, client.clientGender]
+}
+
+console.log(clientDetails2({
+        clientDetails: {
+            clientName: "Vishal",
+            age: 18,
+            country: "India"
+        },
+        clientGender: {
+            sex: "male",
+            orientation: "straight",
+            pronoun: "he/him"
+        }
+}))
