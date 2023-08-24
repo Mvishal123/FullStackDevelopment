@@ -2,7 +2,7 @@ import jwt from "jsonwebtoken"
 import express from "express"
 import{ authenticateJwt, SECRET } from "../middleware/";
 import { User } from "../db";
-// import { Request, Response } from "express";
+
 const router = express.Router();
 
   router.post('/signup', async (req, res) => {
@@ -29,7 +29,7 @@ const router = express.Router();
     }
   });
 
-    router.get('/me', authenticateJwt, async (req: Request, res: Response) => {
+    router.get('/me', authenticateJwt, async (req, res) => {
       const user = await User.findOne({ _id: req.headers.userId });
       if (user) {
         res.json({ username: user.username });
