@@ -1,10 +1,11 @@
-import { Button } from "./components/ui/button"
+import LandingPage from "./components/pages/LandingPage"
+// import { Button } from "./components/ui/button"
 
 function App() {
 
   return (
-    <div className='grid place-items-center h-screen'>
-      <Button size='lg' variant='outline' className="bg-red-400 text-white hover:bg-red-500 hover:text-white ">Button</Button>
+    <div>
+      <LandingPage/>
     </div>
   )
 }
