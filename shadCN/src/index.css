@@ -2,6 +2,11 @@
 @tailwind components;
 @tailwind utilities;
  
+@layer components{
+  .container{
+    @apply relative px-4 lg:px-6 py-4
+  }
+}
 @layer base {
   :root {
     --background: 0 0% 100%;

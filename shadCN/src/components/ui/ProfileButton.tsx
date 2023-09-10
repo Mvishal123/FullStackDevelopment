@@ -1,4 +1,5 @@
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import { Button } from "@/components/ui/button";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -10,15 +11,15 @@ import {
 
 const ProfileButton = () => {
   return (
-    <div className="px-4">
-      <DropdownMenu>
+    <div >
+      <DropdownMenu >
         <DropdownMenuTrigger>
           <Avatar>
             <AvatarImage src="https://github.com/shadcn.png" />
             <AvatarFallback>X</AvatarFallback>
           </Avatar>
         </DropdownMenuTrigger>
-        <DropdownMenuContent className="text-center">
+        <DropdownMenuContent className="text-center pr-10">
           <DropdownMenuLabel>
             <span>My Account</span>
           </DropdownMenuLabel>
@@ -34,8 +35,8 @@ const ProfileButton = () => {
               Subscription
             </DropdownMenuItem>
             <DropdownMenuSeparator />
-            <DropdownMenuItem>Sign in</DropdownMenuItem>
-            <DropdownMenuItem>Sign up</DropdownMenuItem>
+            <DropdownMenuItem><Button variant={"ghost"}>Sign in</Button></DropdownMenuItem>
+            <DropdownMenuItem><Button variant={"ghost"}>Sign up</Button></DropdownMenuItem>
           </div>
         </DropdownMenuContent>
       </DropdownMenu>

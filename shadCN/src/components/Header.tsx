@@ -10,7 +10,7 @@ const Header = () => {
 
     const [theme, setTheme] = useState("light");
   return (
-    <header className="flex justify-between items-center border-b">
+    <header className="flex justify-between items-center border-b px-6">
         <HeaderSheet/>
       <div className="p-4 sm:px-8 text-4xl font-extrabold text-slate-800">
         Crystal
