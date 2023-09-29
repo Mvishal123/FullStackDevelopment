@@ -1,0 +1,13 @@
+-----------REACT NATIVE------------
+
+---------HISTORY--------
+-> Used for running applications on Android and IOS.
+-> It allows to use native components.
+-> Used by facebook, instagram, airbnb, etc.
+-> Hot reloading.
+-> Strong community support.
+-> Expo is a developer environment
+
+
+
+---------REACT vs REACT NATIVE----------
