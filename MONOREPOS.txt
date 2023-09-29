@@ -1,0 +1,35 @@
+MONOREPOS
+-> Big complex projects use monorepos
+-> backend and the frontend in the same repositories
+-> Monorepos helps us to contain multiple modules in the same repossitories
+
+PRE MONOREPOS ERA
+-> client and the server have their own packages
+-> Or Client and server in different repos
+
+WHY MODULES OR PACKAGES?
+-> primary reason is that we can share code between frontend and backend so that if we need not change code at both places if needed.
+-> Reusable code
+-> Seperation of concern
+-> Teams can work independently on modules
+
+ZOD INFERENCE
+-> Input validation
+-> const type = z.infer<typeof zod_type>
+
+COMMON FOLDER
+-> It has small modules which are used by both frontend and backend
+
+
+PUBLISH TO NPM
+-> We publish only JS files not TS files
+-> npm publish --access=public
+
+-> To have access to types in packages, we need to set declaration = true in ts.config
+-> it creates a d.ts file which contains only the type definitions and no JS logic. Whereas, .js contains only the JS logic and no type defintions
+-> We need d.ts file because the person downloading the package should know the available types and not necessarily the logics.
+
+
+NOTES:
+-> TS only does compile time check and the runtime is still JavaScript.
+-> TS is only to get strong types and not runtime validation.
