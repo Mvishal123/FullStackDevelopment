@@ -1,0 +1,36 @@
+*{
+    margin: 0;
+    padding: 0;
+}
+body{
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.wrapper{
+
+}
+
+.inp{
+    display: flex;
+    flex-direction: column;
+}
+
+.inps{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.sub-btn{
+    text-align: center;
+}
+button{
+    padding: .75rem 1.5rem;
+}
+
+input{
+    margin: 1rem .5rem;
+}

@@ -1,0 +1,52 @@
+body{
+    margin: 0 auto;
+    background: url(header.jpg);
+    background-size: cover;
+    background-position: center;
+}
+.main-content{
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    
+}
+
+.main-content h1{
+    text-align: center;
+    color: whitesmoke;
+    letter-spacing: 0.3em;
+    text-transform: uppercase;
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+
+}
+
+.space{
+    height: 10rem;
+}
+
+hr{
+    border-width: 3px;
+    border-color: rgb(251, 110, 110);
+    opacity: 1;
+    width: 2em;
+}
+
+.main-content button{
+    font-family:  'Roboto', Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+    font-weight: 600;
+    padding: 15px;
+    border-color: rgb(251, 110, 110);
+    border-radius: 25px;
+    width: 15em;
+    align-self: center;
+    text-transform: uppercase;
+    background-color: rgb(251, 110, 110);
+    margin-top: 10px;
+}
+
+.main-content button:hover{
+    transform: translateY(-2px);
+    margin-top: 10px;
+    background-color: rgb(248, 93, 93);
+}

@@ -1,0 +1,119 @@
+body {
+  background: url(—Pngtree—cute\ hand\ drawn\ style\ math_1176962.png);
+  background-size: cover;
+}
+.container:first-child {
+  margin: 0;
+  width: 100%;
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.calculator {
+  background-color: #535353;
+  border: 2px solid #000000;
+  box-shadow: 4px 3px #2c2c2c;
+  border-radius: 25px;
+  height: 530px;
+  width: 300px;
+}
+img {
+  position: relative;
+  height: 20px;
+  width: auto;
+  left: 98px;
+  top: 10px;
+}
+
+.screen {
+  height: 80px;
+  width: 90%;
+  background-color: #e5e4e2;
+  position: relative;
+  top: 40px;
+  left: 15px;
+  border-radius: 5px;
+  box-shadow: inset 2px 2px #2c2c2c;
+}
+.input-screen {
+  width: 100%;
+  height: 100%;
+  background-color: transparent;
+  border: none;
+  outline: none;
+  padding: 10px;
+  font-size: 30px;
+}
+
+.buttons {
+  height: 300px;
+  width: 100%;
+  position: relative;
+  top: 90px;
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr 1fr;
+  gap: 8px;
+  justify-items: center;
+  align-items: center;
+  cursor: pointer;
+  flex-wrap: wrap;
+}
+
+.calculator .btn {
+  height: 3rem;
+  width: 3rem;
+  background-color: #1b1b1b;
+  color: white;
+  font-size: large;
+  font-weight: 800;
+  text-align: center;
+  line-height: 3rem;
+  border-radius: 20px;
+  box-shadow: 2px 1px #787877;
+}
+
+.btn:active {
+  transform: translate(2px, 1px);
+  box-shadow: none;
+}
+
+.zero {
+  position: relative;
+  /* left: 102.5px; */
+}
+
+.addbtn {
+  grid-column: 4/5;
+  grid-row: 1/3;
+  height: 130px;
+}
+
+.add {
+  align-items: center;
+  justify-content: center;
+}
+.add.btn {
+  height: 100%;
+  display: flex;
+}
+
+.ans {
+  grid-row: 5/6;
+  grid-column: 4/5;
+}
+/* Clear button */
+.clear.btn {
+  width: 100%;
+  font-family: "Gill Sans", "Gill Sans MT", Calibri, "Trebuchet MS", sans-serif;
+}
+
+.del{
+    font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+}
+.clearbtn {
+  width: 125px;
+  grid-row: 5/6;
+  grid-column: 1/3;
+}

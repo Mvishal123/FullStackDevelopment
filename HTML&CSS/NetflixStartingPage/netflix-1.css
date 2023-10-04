@@ -1,0 +1,203 @@
+*{
+    margin: 0;
+    padding: 0;
+    font-family: 'Inter', sans-serif;
+}
+/* 
+.container{
+    height: 100vh;
+    width: auto;
+    background: url(netflix_background.jpg) no-repeat;
+    background-size: cover;
+    background-position: center;
+    filter: brightness(40%);
+} */
+
+.container{
+    height: 100vh;
+    width: 100vw;
+    background:
+           /* top, transparent black, faked with gradient */ 
+           linear-gradient(
+             rgba(0, 0, 0, 0.7), 
+             rgba(0, 0, 0, 0.7)
+           ),
+           /* bottom, image */
+           url(netflix_background.jpg) no-repeat;
+
+           background-position: center;
+           background-size: cover;
+}
+       
+
+nav{
+    height: 10%;
+    width: auto;
+    margin: 0 30px;
+    display: flex;
+}
+
+nav img{
+    height: 120px;
+    align-self: center;
+}
+
+.right-end-nav{
+    margin-left: auto;
+    align-self: center;
+}
+
+.right-end-nav li{
+    display: inline-block;
+    margin-right: 25px;
+}
+
+.right-end-nav select{
+    color: white;
+    font-size: 1em;
+    background-color: transparent;
+    text-align: center;
+    border: 1px solid #fff;
+    border-radius: 6px;
+    padding: 6px 10px;
+}    
+.right-end-nav option{
+    color: white;
+    font-size: 1em;
+    background-color: #414141;
+    text-align: center;
+    border: 1px solid #fff;
+    border-radius: 6px;
+    padding: 10px 15px;
+}  
+
+.right-end-nav button{
+    padding: 10px 20px;
+    color: #fff;
+    background-color: rgb(250, 37, 37);
+    border: none;
+    border-radius: 6px;
+    font-size: 1em;
+    font-family: Helvetica, sans-serif;
+}
+
+section .first-content{
+    color: #fff;
+    font-size: 50px;
+    font-weight: 600;
+    text-align: center;
+}
+
+section .mid-content{
+    color: #fff;
+    font-size: 30px;
+    text-align: center;
+    padding: 10px 0;
+}
+
+section .login-words{
+    color: #fff;
+    font-size: 20px;
+    text-align: center;
+}
+
+section .center-content{
+    width: auto;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    transform: translateY(10em);
+
+}
+.login{
+    display: flex;
+    flex-direction: column;
+    height: ;
+    align-items: center;
+    justify-content: center;
+    padding: 20px 0;
+}
+
+.email{
+    height: 60px;
+    width: 700px;
+    display: flex;
+    padding: 10px 0;
+}
+
+.login button{
+    font-size: 1em;
+    color: #fff;
+    border-color: transparent;
+    width: 50%;
+    height: 100%;
+    outline: none;
+    background-color: rgb(244, 62, 62);
+}
+
+.email input{
+    width: 100%;
+    height: 100%;
+    border: none;
+}
+
+@media only screen and (max-width: 600px){
+    .first-content p{
+        font-size: 40px;
+    }
+
+    .mid-content p{
+        font-size: 25px;
+    }
+
+    .login p{
+        font-size: 18px;
+    }
+    .email{
+        width: 400px;
+    }
+
+    nav img{
+        height: 80px;
+    }
+
+    .right-end-nav{
+        margin-left: auto;
+    }
+}
+
+.content-next{
+    display: flex;
+    flex-direction: column;
+}
+
+.info{
+    color: #fff;
+    background-color: black;
+}
+
+.tv-content h1{
+    font-size: 3.5em;
+}
+
+.tv-content p{
+    font-size: 20px;
+}
+.tv-info{
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+}
+
+.grey-div{
+    background-color: #414141;
+    height: 5px;
+    width: 100vw;
+}
+
+*{
+    margin: 0;
+    padding: 0;
+}
