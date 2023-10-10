@@ -1,0 +1,11 @@
+NEXTJS
+-> It fixes waterfalling
+1. From the nearby CDN, we get the index.html file which has a script tag to JS file which contains all the React code. 
+2. Then all the components which doesn't depend on backend renders. 
+3. Simultaneously another request goes to the BE and gets the data and other components are renedered.
+
+-> SEO optimised
+In react the initial html file that we receive file is empty and contains a link to a JS file. But search engines doesn't run JS. Therefore SE cannot scrape an empty HTML.
+
+-> React doesn't work on places where JS cannot run
+Because if JS can't execute we are left with an empty html file which is useless.

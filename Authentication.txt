@@ -1,0 +1,12 @@
+---AUTHENTICATION WITH COOKIES---
+
+-> The first request that goes to the server has cookies and we get back HTML filled page.
+
+NEXT AUTH
+-> Most popular cookie based Authentication.
+
+
+oAuth
+-> Login with Google, Facebook and other similar providers.
+-> It is used for better UX.
+-> It is a protocol.  
