@@ -11,3 +11,13 @@
 
 
 ---------REACT vs REACT NATIVE----------
+-> We use the same JS
+-> But instead of rendering HTML we render Native mobile components.
+
+
+----------COMPONENTS--------------
+-> Instead of buttons we have {TouchableOpacity}
+-> {ActivityIndicator} Spinner or loader
+-> {FlatList} rendering long list of items which is to be scrolled efficiently. Larger lists: Go for FlatList else Map will do the job
+-> {ScrollView} It is like a box which holds multiple items and provides scrolling functionality. It is like overflow scroll in HTML.
+-> {SafeView} It provides a safezone for components to render without being affected by the hardware components like notch, home indicator or the status bar. It makes sure that the components are in the visible area. 
