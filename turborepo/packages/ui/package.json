@@ -9,6 +9,7 @@
     "generate:component": "turbo gen react-component"
   },
   "devDependencies": {
+    "config": "*",
     "@turbo/gen": "^1.10.12",
     "@types/node": "^20.5.2",
     "@types/react": "^18.2.0",
