@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from "next/server";
 import bcrypt from "bcryptjs";
 import { User } from "@/models/userModel";
 import connect from "@/app/db/dbConfig";
+import jwt from "jsonwebtoken";
 
 connect();
 
@@ -24,10 +25,24 @@ export default async function POST(req: NextRequest) {
           { status: 200 }
         );
       } else {
-        return NextResponse.json(
-          { message: "Invalid credentials" },
-          { status: 401 }
+        const tokenData = {
+          userId: user._id,
+          username: user.username,
+          email: user.email,
+        };
+        const token = jwt.sign(tokenData, process.env.JWT_SECRET!, {
+          expiresIn: "1d",
+        });
+
+        const response = NextResponse.json(
+          { message: "User logged in successfully" },
+          { status: 200 }
         );
+        response.cookies.set("token", token, {
+          httpOnly: true,
+        });
+
+        return response;
       }
     }
   } catch (error) {
