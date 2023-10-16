@@ -1,6 +1,5 @@
 import { NextApiRequest, NextApiResponse } from "next";
-import { connectDb } from "../../lib/connectDb";
-import { Users } from "db";
+import { Users, connectDb} from "db";
 import jwt from "jsonwebtoken";
 
 type resData = {

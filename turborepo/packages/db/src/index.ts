@@ -33,5 +33,13 @@ const courseSchema = new mongoose.Schema({
 export const Users = mongoose.models.User || mongoose.model("User", userSchema);
 export const Admin = mongoose.models.Admin || mongoose.model("Admin", adminSchema);
 export const Course = mongoose.models.Course || mongoose.model("Course", courseSchema);
+export const connectDb = async () => {
+  if (mongoose.connections[0].readyState) {
+      console.log("Already connected.");
+      return;
+  }
+  const db = await mongoose.connect(process.env.MONGO_URI!);
+  console.log("DB Connected.");  
+}
 
 
