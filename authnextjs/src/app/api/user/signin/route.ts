@@ -18,7 +18,7 @@ export async function POST(req: NextRequest) {
       );
     } else {
       const passwordCheck = await bcrypt.compare(password, user.password);
-      console.log(passwordCheck);
+      // console.log(passwordCheck);
 
       if (!passwordCheck) {
         return NextResponse.json(
@@ -43,7 +43,7 @@ export async function POST(req: NextRequest) {
           httpOnly: true,
         });
 
-        console.log(response);
+        // console.log(response);
 
         return response;
       }
