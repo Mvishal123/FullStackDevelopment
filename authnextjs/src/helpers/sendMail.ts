@@ -47,10 +47,10 @@ export const sendMail = async (
     to: email,
     subject: mailType === "verify" ? "Verify your email" : "Reset password",
     text: "Remember, You are a great person!",
-    html: `<p>Click <a href=${process.env.BASE_URL}/verifyuser?token=${hashedUserId}> here </a> to verify your email</p>
+    html: `<p>Click <a href=${process.env.BASE_URL}/verification?token=${hashedUserId}> here </a> to verify your email</p>
         </br>
         <p>If not working, copy this URL and paste it in your browser</p></br>
-        <p>${process.env.BASE_URL}/verifyuser?token=${hashedUserId}</p>`,
+        <p>${process.env.BASE_URL}/verification?token=${hashedUserId}</p>`,
   });
 
   if (mail) {
