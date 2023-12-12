@@ -34,6 +34,7 @@ const appRouter = (0, trpc_1.router)({
             username,
             password,
         }, "SECRET", { expiresIn: "1h" });
+        console.log("CTX", opts.ctx.userId, opts.ctx.username);
         return {
             token,
         };
@@ -41,5 +42,13 @@ const appRouter = (0, trpc_1.router)({
 });
 const server = (0, standalone_1.createHTTPServer)({
     router: appRouter,
+    createContext: (opts) => {
+        const token = opts.req.headers.authorization;
+        console.log(token);
+        return {
+            username: "Vishal",
+            userId: "1",
+        };
+    },
 });
 server.listen(3000);

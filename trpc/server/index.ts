@@ -41,6 +41,7 @@ const appRouter = router({
         "SECRET",
         { expiresIn: "1h" }
       );
+      console.log("CTX", opts.ctx.userId, opts.ctx.username);
 
       return {
         token,
@@ -50,6 +51,15 @@ const appRouter = router({
 
 const server = createHTTPServer({
   router: appRouter,
+  createContext: (opts) => {
+    const token = opts.req.headers.authorization;
+    console.log(token);
+
+    return {
+      username: "Vishal",
+      userId: "1",
+    };
+  },
 });
 
 server.listen(3000);
