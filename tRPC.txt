@@ -1,0 +1,21 @@
+--tRPC--
+
+RPC -> Remote Procedural Call 
+-> Calling backend using function calls in the frontend
+-> Another such similar famous library is gRPC by Google
+-> tRPC is for TypeScript
+-> Under the hood HTTP is only used, but we call the BE using function.
+
+Why tRPC?
+1. Automatic types on FE and BE
+2. Generic code for different frameworks. Eg: same tRPC code works for express, NextJS, etc. Therefore we need to write code only once and takes away the pain of migrating codebase to       different frameworks
+-> This is done using adapters.
+-> The tRPC code is converted to the BE framework's code with the help of respective framework specific adapter.
+
+
+--CONTEXTS AND MIDDLEWARES--
+
+1. Context
+-> Context holds all the data that all the tRPC procedures need to access like db and auth. 
+-> Create a context. 2 steps
+-> 1. Define the type of the context during trpc init

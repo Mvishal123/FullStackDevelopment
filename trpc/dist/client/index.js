@@ -14,25 +14,44 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 const client_1 = require("@trpc/client");
 const jsonwebtoken_1 = __importDefault(require("jsonwebtoken"));
+// Replace these values with your actual secret and credentials
+const SECRET = "your-secret-key";
+const username = "Vamos";
+const password = "Vamos123";
+const hardcodedToken = jsonwebtoken_1.default.sign({ username, password }, SECRET, {
+    expiresIn: "1h",
+});
 const trpc = (0, client_1.createTRPCProxyClient)({
     links: [
         (0, client_1.httpBatchLink)({
             url: "http://localhost:3000",
+            headers() {
+                return {
+                    authorization: `Bearer ${hardcodedToken}`,
+                };
+            },
         }),
     ],
 });
 const main = () => __awaiter(void 0, void 0, void 0, function* () {
-    console.log("Inside main function");
-    const todo = trpc.createTodo.mutate({
-        title: "go to the store",
-        description: "buy milk",
-    });
-    const data = yield trpc.auth.mutate({
-        username: "Vishal",
-        password: "password",
-    });
-    console.log("TOKEN:", data.token);
-    const verifiedToken = jsonwebtoken_1.default.verify(data.token, "SECRET");
-    console.log("VERIFIED TOKEN:", verifiedToken);
+    try {
+        console.log("Inside main function");
+        const todo = yield trpc.createTodo.mutate({
+            title: "go to the store",
+            description: "buy milk",
+        });
+        console.log("TODO:", todo);
+        const data = yield trpc.auth.mutate({
+            username: "Vishal",
+            password: "password",
+        });
+        console.log("TOKEN:", data.token);
+        // Verify the token
+        const verifiedToken = jsonwebtoken_1.default.verify(data.token, SECRET);
+        console.log("VERIFIED TOKEN:", verifiedToken);
+    }
+    catch (error) {
+        console.error("An error occurred:", error);
+    }
 });
 main();

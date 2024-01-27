@@ -2,7 +2,7 @@ import { initTRPC } from "@trpc/server";
 
 interface contextType {
   username: string;
-  userId: string;
+  password: string;
 }
 
 const t = initTRPC.context<contextType>().create();

@@ -15,7 +15,7 @@ const appRouter = router({
 
     // db stuff
 
-    //response
+    // response
     return {
       status: "success",
       id: "1",
@@ -41,7 +41,8 @@ const appRouter = router({
         "SECRET",
         { expiresIn: "1h" }
       );
-      console.log("CTX", opts.ctx.userId, opts.ctx.username);
+
+      console.log("CTX", opts.ctx.password, opts.ctx.username);
 
       return {
         token,
@@ -52,13 +53,25 @@ const appRouter = router({
 const server = createHTTPServer({
   router: appRouter,
   createContext: (opts) => {
-    const token = opts.req.headers.authorization;
-    console.log(token);
+    const authorizationHeader = opts.req.headers["authorization"];
 
-    return {
-      username: "Vishal",
-      userId: "1",
-    };
+    if (!authorizationHeader) {
+      throw new Error("Authorization header is missing");
+    }
+
+    const [bearer, token] = authorizationHeader.split(" ");
+
+    try {
+      const data = jwt.verify(token, "SECRET");
+      const decodedToken = data;
+      console.log("DECODED TOKEN:", decodedToken);
+      return {
+        username:"Vishal",
+        password: "123",
+      };
+    } catch (error) {
+      throw new Error("Invalid or expired token");
+    }
   },
 });
 
